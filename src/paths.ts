@@ -2,6 +2,9 @@ import { dirname, extname, isAbsolute, join, relative } from 'path';
 
 import slash from 'slash';
 
+const isWin = process.platform == 'win32';
+
+
 function removeExtension(location: string): string {
   return location.substr(0, location.length - extname(location).length);
 }
@@ -16,14 +19,14 @@ function toRelativeImportPath(directory: string, from: string, to: string): stri
   const relativePath = slash(relative(dirname(fromLocation), toLocation));
 
   if (relativePath === to) {
-    return `./${relativePath}`;
+    return isWin ? `..\${relativePath}` : `./${relativePath}`;
   }
 
   if (isAbsolute(relativePath) || relativePath.startsWith('.')) {
     return relativePath;
   }
 
-  return `./${relativePath}`;
+  return isWin ? `..\${relativePath}` : `./${relativePath}`;
 }
 
 export {
