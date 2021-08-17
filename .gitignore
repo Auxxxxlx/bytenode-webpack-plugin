@@ -5,6 +5,5 @@
 .idea/
 .vscode/
 coverage/
-lib/
 node_modules/
 test/webpack/output/
